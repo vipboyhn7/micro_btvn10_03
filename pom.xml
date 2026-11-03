@@ -16,6 +16,7 @@
     <modules>
         <module>medicine-service</module>
         <module>pharmacy-service</module>
+        <module>inventory-service</module>
     </modules>
     <properties>
         <java.version>17</java.version>

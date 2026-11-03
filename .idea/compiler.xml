@@ -8,11 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="medicine-service" />
         <module name="pharmacy-service" />
+        <module name="inventory-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="inventory-service" options="-parameters" />
       <module name="medicine-service" options="-parameters" />
       <module name="pharmacy-service" options="-parameters" />
     </option>

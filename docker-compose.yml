@@ -14,6 +14,9 @@ services:
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
     volumes:
       - kafka_data:/var/lib/kafka/data
     healthcheck:
@@ -36,5 +39,23 @@ services:
         /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:29092 --create --if-not-exists --topic pharmacy-notifications --partitions 2 --replication-factor 1
         echo "Kafka topics are ready."
 
+  postgres:
+    image: postgres:16-alpine
+    container_name: pharmacy-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: pharmacy
+      POSTGRES_USER: pharmacy
+      POSTGRES_PASSWORD: pharmacy
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pharmacy -d pharmacy"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
 volumes:
   kafka_data:
+  postgres_data:
